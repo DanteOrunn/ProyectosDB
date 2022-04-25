@@ -1,0 +1,66 @@
+package connection;
+
+import java.sql.*;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Luis Cruz
+ * @version 1.0.0
+ */
+public class Connector {
+    
+    private String dbName = "testing";
+    private String url = "jdbc:mysql://localhost:3306/";
+    private String user = "DevAccessRoot";
+    private String password = "Lol_Cow69";
+    private String driver = "com.mysql.cj.jdbc.Driver";
+    private Connection connect;
+    
+    public Connector(){
+        this.dbName = "testing";
+        this.url = "jdbc:mysql://localhost:3306/";
+        this.user = "DevAccessRoot";
+        this.password = "Lol_Cow69";
+        this.driver = "com.mysql.cj.jdbc.Driver";
+    }
+    
+    public Connector(String dbName, String url, String user, String password, String driver){
+        this.dbName = dbName;
+        this.url = url;
+        this.user = user;
+        this.password = password;
+        this.driver = driver;
+    }
+    
+    public Connector(String dbName, String ipDirecction, String port, String user, String password, String driver){
+        this.dbName = dbName;
+        this.url = "jdbc:mysql://" + ipDirecction + ":" + port;
+        this.user = user;
+        this.password = password;
+        this.driver = driver;
+    }
+    
+    public Connection conectar(){
+        try {
+            Class.forName(driver);
+            connect = DriverManager.getConnection(url + dbName, user, password);
+            JOptionPane.showMessageDialog(null, "La conexion a la base de datos " + dbName + " fue exitorsa");
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null, "La conexion a la base de datos " + dbName + " fallo");
+            JOptionPane.showMessageDialog(null, "|ERROR|:" + e.getMessage());
+        }
+        
+        return connect;
+    }
+    
+    public void desconectar(){
+        try {
+            connect.close();
+            JOptionPane.showMessageDialog(null, "Se desconecto de forma satisfactoria");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Fallo en la desconexion a la base de datos");
+        }
+    }
+    
+}
