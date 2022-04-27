@@ -89,6 +89,11 @@ public class Alumnos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAlumnosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblAlumnos);
 
         panel_entrada_datos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Inter", 0, 14))); // NOI18N
@@ -120,6 +125,11 @@ public class Alumnos extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
 
@@ -266,6 +276,40 @@ public class Alumnos extends javax.swing.JFrame {
     private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rbMasculinoActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void tblAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAlumnosMouseClicked
+        try {
+            int fila = tblAlumnos.getSelectedRow();
+            int id = Integer.parseInt(tblAlumnos.getValueAt(fila, 0).toString());
+            Connector conexion = new Connector("escuela");
+            ResultSet rs;
+            
+            Connection con = conexion.conectar();
+            PreparedStatement ps = con.prepareStatement("SELECT matricula, nombre, edad, sexo, eMail FROM alumno WHERE id=?");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {                
+                txtID.setText(String.valueOf(id));
+                txtMatricula.setText(rs.getString("matricula"));
+                txtNombre.setText(rs.getString("nombre"));
+                txtEdad.setText(rs.getString("edad"));
+                txtEMail.setText(rs.getString("eMail"));
+                if (rs.getString("sexo").equals("M")) {
+                    rbMasculino.setSelected(true);
+                } else if (rs.getString("sexo").equals("F")){
+                    rbFemenino.setSelected(true);
+                }
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_tblAlumnosMouseClicked
     
     private void limpiar(){
         this.txtID.setText("");
