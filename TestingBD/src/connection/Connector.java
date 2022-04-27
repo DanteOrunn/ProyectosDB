@@ -53,7 +53,6 @@ public class Connector {
         try {
             Class.forName(driver);
             connect = DriverManager.getConnection(url + dbName, user, password);
-            JOptionPane.showMessageDialog(null, "La conexion a la base de datos " + dbName + " fue exitorsa");
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "La conexion a la base de datos " + dbName + " fallo");
             JOptionPane.showMessageDialog(null, "|ERROR|:" + e.getMessage());
@@ -65,7 +64,6 @@ public class Connector {
     public void desconectar(){
         try {
             connect.close();
-            JOptionPane.showMessageDialog(null, "Se desconecto de forma satisfactoria");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Fallo en la desconexion a la base de datos");
         }
