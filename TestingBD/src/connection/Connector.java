@@ -25,6 +25,14 @@ public class Connector {
         this.driver = "com.mysql.cj.jdbc.Driver";
     }
     
+    public Connector(String dbName){
+        this.dbName = dbName;
+        this.url = "jdbc:mysql://localhost:3306/";
+        this.user = "DevAccessRoot";
+        this.password = "Lol_Cow69";
+        this.driver = "com.mysql.cj.jdbc.Driver";
+    }
+    
     public Connector(String dbName, String url, String user, String password, String driver){
         this.dbName = dbName;
         this.url = url;
