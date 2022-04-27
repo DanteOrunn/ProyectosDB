@@ -1,5 +1,10 @@
 package ventanas;
 
+import connection.*;
+import java.sql.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Luis Cruz    
@@ -7,13 +12,19 @@ package ventanas;
  */
 public class Alumnos extends javax.swing.JFrame {
 
+    ButtonGroup btnGr;
+    
     /**
      * Creates new form Alumnos
      */
     public Alumnos() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Alumnos BD");
+        
+        this.txtID.setVisible(false);
+        this.btnGr = new ButtonGroup();
+        btnGr.add(rbMasculino);
+        btnGr.add(rbFemenino);
     }
 
     /**
@@ -25,22 +36,243 @@ public class Alumnos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        labelAlumnos = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblAlumnos = new javax.swing.JTable();
+        panel_entrada_datos = new javax.swing.JPanel();
+        labelMatricula = new javax.swing.JLabel();
+        txtMatricula = new javax.swing.JTextField();
+        labelNombre = new javax.swing.JLabel();
+        labelEdad = new javax.swing.JLabel();
+        labelSexo = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        txtEdad = new javax.swing.JTextField();
+        rbMasculino = new javax.swing.JRadioButton();
+        rbFemenino = new javax.swing.JRadioButton();
+        labelEMail = new javax.swing.JLabel();
+        txtEMail = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        txtID = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Alumnos");
+
+        labelAlumnos.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
+        labelAlumnos.setText("Alumnos");
+
+        tblAlumnos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Edad", "Sexo", "eMail"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblAlumnos);
+
+        panel_entrada_datos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Inter", 0, 14))); // NOI18N
+
+        labelMatricula.setText("Matricula:");
+
+        labelNombre.setText("Nombre:");
+
+        labelEdad.setText("Edad:");
+
+        labelSexo.setText("Sexo:");
+
+        rbMasculino.setText("Masculino");
+        rbMasculino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbMasculinoActionPerformed(evt);
+            }
+        });
+
+        rbFemenino.setText("Femenino");
+
+        labelEMail.setText("eMail");
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setText("Modificar");
+
+        btnEliminar.setText("Eliminar");
+
+        btnLimpiar.setText("Limpiar");
+
+        txtID.setText("jTextField1");
+
+        javax.swing.GroupLayout panel_entrada_datosLayout = new javax.swing.GroupLayout(panel_entrada_datos);
+        panel_entrada_datos.setLayout(panel_entrada_datosLayout);
+        panel_entrada_datosLayout.setHorizontalGroup(
+            panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_entrada_datosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_entrada_datosLayout.createSequentialGroup()
+                        .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelMatricula)
+                            .addComponent(labelNombre)
+                            .addComponent(labelEdad)
+                            .addComponent(labelSexo)
+                            .addComponent(labelEMail))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNombre)
+                            .addComponent(txtEdad)
+                            .addGroup(panel_entrada_datosLayout.createSequentialGroup()
+                                .addComponent(rbMasculino)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                                .addComponent(rbFemenino))
+                            .addComponent(txtEMail)
+                            .addGroup(panel_entrada_datosLayout.createSequentialGroup()
+                                .addComponent(txtMatricula)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panel_entrada_datosLayout.createSequentialGroup()
+                        .addComponent(btnGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModificar))
+                    .addGroup(panel_entrada_datosLayout.createSequentialGroup()
+                        .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLimpiar)))
+                .addContainerGap())
+        );
+        panel_entrada_datosLayout.setVerticalGroup(
+            panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_entrada_datosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelMatricula)
+                    .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNombre)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelEdad)
+                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelSexo)
+                    .addComponent(rbMasculino)
+                    .addComponent(rbFemenino))
+                .addGap(18, 18, 18)
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelEMail)
+                    .addComponent(txtEMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnModificar))
+                .addGap(18, 18, 18)
+                .addGroup(panel_entrada_datosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnLimpiar))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 683, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(panel_entrada_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelAlumnos)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 428, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(labelAlumnos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panel_entrada_datos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String matricula = txtMatricula.getText();
+        String nombre = txtNombre.getText();
+        int edad = Integer.parseInt(txtEdad.getText());
+        String eMail = txtEMail.getText();
+        String sexo = "M";
+        Connector conexion = new Connector("escuela");
+        
+        if (rbMasculino.isSelected() == true) {
+            sexo = "M";
+        } else if(rbFemenino.isSelected() == true) {
+            sexo = "F";
+        }
+        
+        try {
+            Connection con = conexion.conectar();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO alumno(matricula, nombre, edad, sexo, eMail, activo) VALUES (?,?,?,?,?,?)");
+            ps.setString(1, matricula);
+            ps.setString(2, nombre);
+            ps.setInt(3, edad);
+            ps.setString(4, sexo);
+            ps.setString(5, eMail);
+            ps.setInt(6, 1);
+            ps.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Registro Guardado");
+            limpiar();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbMasculinoActionPerformed
+    
+    private void limpiar(){
+        this.txtID.setText("");
+        this.txtMatricula.setText("");
+        this.txtNombre.setText("");
+        this.txtEdad.setText("");
+        this.txtEMail.setText("");
+        btnGr.clearSelection();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -77,5 +309,25 @@ public class Alumnos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelAlumnos;
+    private javax.swing.JLabel labelEMail;
+    private javax.swing.JLabel labelEdad;
+    private javax.swing.JLabel labelMatricula;
+    private javax.swing.JLabel labelNombre;
+    private javax.swing.JLabel labelSexo;
+    private javax.swing.JPanel panel_entrada_datos;
+    private javax.swing.JRadioButton rbFemenino;
+    private javax.swing.JRadioButton rbMasculino;
+    private javax.swing.JTable tblAlumnos;
+    private javax.swing.JTextField txtEMail;
+    private javax.swing.JTextField txtEdad;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtMatricula;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
