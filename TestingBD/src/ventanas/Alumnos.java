@@ -4,6 +4,7 @@ import connection.*;
 import java.sql.*;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,6 +26,8 @@ public class Alumnos extends javax.swing.JFrame {
         this.btnGr = new ButtonGroup();
         btnGr.add(rbMasculino);
         btnGr.add(rbFemenino);
+        
+        cargarTable();
     }
 
     /**
@@ -68,14 +71,14 @@ public class Alumnos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Edad", "Sexo", "eMail"
+                "ID", "Matricula", "Nombre", "Sexo", "eMail"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, true
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -144,7 +147,7 @@ public class Alumnos extends javax.swing.JFrame {
                             .addComponent(txtEdad)
                             .addGroup(panel_entrada_datosLayout.createSequentialGroup()
                                 .addComponent(rbMasculino)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                                 .addComponent(rbFemenino))
                             .addComponent(txtEMail)
                             .addGroup(panel_entrada_datosLayout.createSequentialGroup()
@@ -205,13 +208,11 @@ public class Alumnos extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(panel_entrada_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelAlumnos)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panel_entrada_datos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelAlumnos))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,6 +246,7 @@ public class Alumnos extends javax.swing.JFrame {
         try {
             Connection con = conexion.conectar();
             PreparedStatement ps = con.prepareStatement("INSERT INTO alumno(matricula, nombre, edad, sexo, eMail, activo) VALUES (?,?,?,?,?,?)");
+            
             ps.setString(1, matricula);
             ps.setString(2, nombre);
             ps.setInt(3, edad);
@@ -255,6 +257,7 @@ public class Alumnos extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Registro Guardado");
             limpiar();
+            cargarTable();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
         }
@@ -271,6 +274,41 @@ public class Alumnos extends javax.swing.JFrame {
         this.txtEdad.setText("");
         this.txtEMail.setText("");
         btnGr.clearSelection();
+    }
+    
+    private void cargarTable(){
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblAlumnos.getModel();
+        modeloTabla.setRowCount(0);
+        
+        PreparedStatement ps;
+        ResultSet rs;
+        ResultSetMetaData rsmd;
+        int columnas;
+        Connector conexion = new Connector("escuela");
+        
+        try {
+            Connection con = conexion.conectar();
+            ps = con.prepareStatement("SELECT id, matricula, nombre, sexo, eMail FROM alumno");
+            rs = ps.executeQuery();
+            rsmd = rs.getMetaData();
+            columnas = rsmd.getColumnCount();
+            
+            int[] anchos = {10, 50, 100, 30, 100};
+            for (int j = 0; j < tblAlumnos.getColumnCount(); j++) {
+                tblAlumnos.getColumnModel().getColumn(j).setPreferredWidth(anchos[j]);
+            }
+            
+            while (rs.next()) {                
+                Object[] filas = new Object[columnas];
+                
+                for (int i = 0; i < columnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+                modeloTabla.addRow(filas);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
     
     /**
