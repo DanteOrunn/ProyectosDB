@@ -10,11 +10,11 @@ import javax.swing.JOptionPane;
  */
 public class Connector {
     
-    private String dbName = "testing";
-    private String url = "jdbc:mysql://localhost:3306/";
-    private String user = "DevAccessRoot";
-    private String password = "Lol_Cow69";
-    private String driver = "com.mysql.cj.jdbc.Driver";
+    private String dbName;
+    private String url;
+    private String user;
+    private String password;
+    private String driver;
     private Connection connect;
     
     public Connector(){
