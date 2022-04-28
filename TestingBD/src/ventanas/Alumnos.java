@@ -363,7 +363,7 @@ public class Alumnos extends javax.swing.JFrame {
         
         try {
             Connection con = conexion.conectar();
-            PreparedStatement ps = con.prepareStatement("DELETE FROM alumno WHERE id = ?");
+            PreparedStatement ps = con.prepareStatement("UPDATE alumno SET activo = 0 WHERE id = ?");
             ps.setInt(1, id);
             
             ps.executeUpdate();
