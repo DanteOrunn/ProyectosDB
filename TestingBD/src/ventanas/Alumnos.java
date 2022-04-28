@@ -132,8 +132,18 @@ public class Alumnos extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         txtID.setText("jTextField1");
 
@@ -342,6 +352,29 @@ public class Alumnos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_tblAlumnosMouseClicked
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int id = Integer.parseInt(txtID.getText());
+        Connector conexion = new Connector("escuela");
+        
+        try {
+            Connection con = conexion.conectar();
+            PreparedStatement ps = con.prepareStatement("DELETE FROM alumno WHERE id = ?");
+            ps.setInt(1, id);
+            
+            ps.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Registro Eliminado");
+            limpiar();
+            cargarTable();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
     
     private void limpiar(){
         this.txtID.setText("");
