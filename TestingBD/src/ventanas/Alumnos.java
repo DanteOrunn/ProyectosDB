@@ -278,7 +278,39 @@ public class Alumnos extends javax.swing.JFrame {
     }//GEN-LAST:event_rbMasculinoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int id = Integer.parseInt(txtID.getText());
+        String matricula = txtMatricula.getText();
+        String nombre = txtNombre.getText();
+        int edad = Integer.parseInt(txtEdad.getText());
+        String eMail = txtEMail.getText();
+        String sexo = "M";
+        Connector conexion = new Connector("escuela");
         
+        if (rbMasculino.isSelected() == true) {
+            sexo = "M";
+        } else if(rbFemenino.isSelected() == true) {
+            sexo = "F";
+        }
+        
+        try {
+            Connection con = conexion.conectar();
+            PreparedStatement ps = con.prepareStatement("UPDATE alumno SET matricula = ?, nombre = ?, edad = ?, sexo = ?, eMail = ?, activo) WHERE id = ?");
+            
+            ps.setString(1, matricula);
+            ps.setString(2, nombre);
+            ps.setInt(3, edad);
+            ps.setString(4, sexo);
+            ps.setString(5, eMail);
+            ps.setInt(6, id);
+            
+            ps.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Registro Modificado");
+            limpiar();
+            cargarTable();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void tblAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAlumnosMouseClicked
